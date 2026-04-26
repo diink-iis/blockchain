@@ -1,0 +1,5 @@
+bond_secid,bond_name,dfa_yield,bond_yield,absolute_spread_pct,relative_spread_pct,is_significant,bond_credit_rating,bond_volume,bond_liquidity_score
+МаякБP1,БО-01 ООО 'ЦЕНТР НЕДВИЖИМОСТИ МАЯК' P1,17.0,16.65,0.3500000000000014,2.1021021021021102,False,B+,30000000,0.7
+МаякБP2,БО-02 ООО 'ЦЕНТР НЕДВИЖИМОСТИ МАЯК' P2,17.0,17.0,0.0,0.0,False,B+,40000000,0.8
+RUСтрA1,БО-001 РУССТРОЙ АО,17.0,18.5,-1.5,-8.108108108108103,False,B,50000000,0.6
+UralDev1,БО-001 УРАЛДЕВЕЛОПМЕНТ,17.0,15.9,1.0999999999999996,6.91823899371069,False,BB-,35000000,0.75
