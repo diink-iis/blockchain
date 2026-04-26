@@ -185,6 +185,33 @@ class BondsDataFetcher:
                         return float(ytm)
 
         return None
+    def enrich_with_ytm(self, bonds_df: pd.DataFrame, boardid: str = "TQCB") -> pd.DataFrame:
+        """
+        Добавляет реальную YTM для всех облигаций в DataFrame.
+        
+        Args:
+            bonds_df: DataFrame с колонкой 'secid'
+            boardid: Режим торгов (TQCB - корп. облигации, TQOB - ОФЗ)
+        
+        Returns:
+            DataFrame с обновлённой колонкой ytm_primary
+        """
+        ytm_values = []
+        
+        for _, row in bonds_df.iterrows():
+            secid = row['secid']
+            ytm = self.get_bond_ytm(secid)
+            
+            if ytm is not None:
+                ytm_values.append(ytm)
+            else:
+                # Fallback на купонную ставку
+                fallback = row.get('coupon_rate', 17.0)
+                ytm_values.append(fallback)
+                print(f"{secid}: YTM не получена, fallback на купон {fallback:.2f}%")
+        
+        bonds_df['ytm_primary'] = ytm_values
+        return bonds_df
 
     def find_comparable_bonds(self,
                              target_maturity_months: int = 12,
@@ -403,30 +430,4 @@ def create_sample_bonds_data() -> pd.DataFrame:
 
     return df
     
-def enrich_with_ytm(self, bonds_df: pd.DataFrame, boardid: str = "TQCB") -> pd.DataFrame:
-    """
-    Добавляет реальную YTM для всех облигаций в DataFrame.
-    
-    Args:
-        bonds_df: DataFrame с колонкой 'secid'
-        boardid: Режим торгов (TQCB - корп. облигации, TQOB - ОФЗ)
-    
-    Returns:
-        DataFrame с обновлённой колонкой ytm_primary
-    """
-    ytm_values = []
-    
-    for _, row in bonds_df.iterrows():
-        secid = row['secid']
-        ytm = self.get_bond_ytm(secid)
-        
-        if ytm is not None:
-            ytm_values.append(ytm)
-        else:
-            # Fallback на купонную ставку
-            fallback = row.get('coupon_rate', 17.0)
-            ytm_values.append(fallback)
-            print(f"{secid}: YTM не получена, fallback на купон {fallback:.2f}%")
-    
-    bonds_df['ytm_primary'] = ytm_values
-    return bonds_df
+
